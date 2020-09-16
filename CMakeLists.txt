@@ -13,8 +13,11 @@ project(acrotensor
         DESCRIPTION "Acrotensor is a C++/CUDA library for computing arbitrary tensor contractions both on CPUs and GPUs"
         HOMEPAGE_URL "https://github.com/LLNL/acrotensor")
 
+
 option(ACROTENSOR_ENABLE_CUDA   "Enable CUDA support"                          OFF)
 option(ACROTENSOR_IS_SUBPROJECT "Enable use of Acrotensor as CMake subproject" OFF)
+option(ACROTENSOR_ENABLE_TESTS  "Enable unit testing"                          ON)
+
 
 # Used when acrotensor is included as subproject (e.g., as Git submodule/subtree) in the source
 # tree of a project that uses it. Users may set the option ACROTENSOR_IS_SUBPROJECT
@@ -37,8 +40,6 @@ if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT AND NOT ACROTENSOR_IS_SUBPROJECT
     message(STATUS "Setting default install location: CMAKE_INSTALL_PREFIX --> ${CMAKE_BINARY_DIR}/install")
     set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "..." FORCE)
 endif ()
-
-message(STATUS "CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
 
 # list of source files
 list(APPEND acrotensor_src exec/CPUInterpretedExecutor.cpp exec/CudaExecutor.cpp exec/KernelExecutor.cpp)
@@ -153,3 +154,9 @@ else()
 endif ()
 
 
+
+# Simple testing with ctest
+if (NOT ACROTENSOR_IS_SUBPROJECT AND ACROTENSOR_ENABLE_TESTS)
+    enable_testing()
+    add_subdirectory(unittest)
+endif ()
