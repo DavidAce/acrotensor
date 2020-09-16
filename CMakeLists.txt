@@ -93,19 +93,18 @@ else()
 
     # Install library
     # Read about this share path here https://cmake.org/cmake/help/v3.12/command/find_package.html
-    list(APPEND acrotensor_hdr_exec    exec/CPUInterpretedExecutor.hpp exec/CudaExecutor.hpp exec/Executor.hpp exec/KernelExecutor.hpp )
-    list(APPEND acrotensor_hdr_kernel  kernel/DimensionedKernel.hpp kernel/DimensionedMultiKernel.hpp kernel/TensorKernel.hpp kernel/TensorEngine.hpp )
-    list(APPEND acrotensor_hdr_ops     ops/CudaGPUOps.hpp ops/NativeCPUOps.hpp ops/Ops.hpp ops/NonContractionOps.hpp)
-    list(APPEND acrotensor_hdr_tensor  tensor/Tensor.hpp tensor/IndexMapping.hpp tensor/IndexVector.hpp tensor/SliceTensor.hpp)
-    list(APPEND acrotensor_hdr_util    util/CudaUtil.hpp util/Error.hpp util/StringUtil.hpp util/Util.hpp)
+    list(APPEND acrotensor_hdr exec/CPUInterpretedExecutor.hpp exec/CudaExecutor.hpp exec/Executor.hpp exec/KernelExecutor.hpp )
+    list(APPEND acrotensor_hdr kernel/DimensionedKernel.hpp kernel/DimensionedMultiKernel.hpp kernel/TensorKernel.hpp kernel/TensorEngine.hpp )
+    list(APPEND acrotensor_hdr ops/CudaGPUOps.hpp ops/NativeCPUOps.hpp ops/Ops.hpp ops/NonContractionOps.hpp)
+    list(APPEND acrotensor_hdr tensor/Tensor.hpp tensor/IndexMapping.hpp tensor/IndexVector.hpp tensor/SliceTensor.hpp)
+    list(APPEND acrotensor_hdr util/CudaUtil.hpp util/Error.hpp util/StringUtil.hpp util/Util.hpp)
 
-
-    install(FILES AcroTensor.hpp            DESTINATION include/acrotensor         COMPONENT headers)
-    install(FILES ${acrotensor_hdr_exec}    DESTINATION include/acrotensor/exec    COMPONENT headers)
-    install(FILES ${acrotensor_hdr_kernel}  DESTINATION include/acrotensor/kernel  COMPONENT headers)
-    install(FILES ${acrotensor_hdr_ops}     DESTINATION include/acrotensor/ops     COMPONENT headers)
-    install(FILES ${acrotensor_hdr_tensor}  DESTINATION include/acrotensor/tensor  COMPONENT headers)
-    install(FILES ${acrotensor_hdr_util}    DESTINATION include/acrotensor/util    COMPONENT headers)
+    install(FILES AcroTensor.hpp    DESTINATION include/acrotensor COMPONENT headers)
+    install(FILES ${acrotensor_hdr} DESTINATION include/acrotensor COMPONENT headers)
+    install(FILES ${acrotensor_hdr} DESTINATION include/acrotensor COMPONENT headers)
+    install(FILES ${acrotensor_hdr} DESTINATION include/acrotensor COMPONENT headers)
+    install(FILES ${acrotensor_hdr} DESTINATION include/acrotensor COMPONENT headers)
+    install(FILES ${acrotensor_hdr} DESTINATION include/acrotensor COMPONENT headers)
 
     install(TARGETS acrotensor_shared acrotensor_static EXPORT acrotensorTargets)
 
