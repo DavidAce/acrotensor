@@ -49,25 +49,12 @@ list(APPEND acrotensor_src util/CudaUtil.cpp)
 
 # this is the "object library" target: compiles the sources only once
 add_library(acrotensor_obj OBJECT ${acrotensor_src})
+# shared libraries need PIC
+set_target_properties(acrotensor_obj PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # Include the directories
 #target_include_directories(acrotensor_obj PRIVATE PUBLIC ./ exec kernel ops tensor util)
 target_include_directories(acrotensor_obj PRIVATE $<BUILD_INTERFACE: exec kernel ops tensor util>)
-
-
-
-# Enable cuda support
-if(ACROTENSOR_ENABLE_CUDA)
-    enable_language(CUDA)
-    target_compile_definitions(acrotensor_obj PUBLIC ACRO_HAVE_CUDA)
-    set_target_properties(acrotensor_obj PROPERTIES CUDA_ARCHITECTURES 75)
-    target_compile_options(acrotensor_obj PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:SHELL:-gencode arch=compute_60,code=sm_60>)
-    set_source_files_properties(${acrotensor_src} PROPERTIES LANGUAGE CUDA)
-endif()
-
-
-# shared libraries need PIC
-set_target_properties(acrotensor_obj PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # shared and static libraries built from the same object files
 add_library(acrotensor_shared SHARED $<TARGET_OBJECTS:acrotensor_obj>)
@@ -75,6 +62,21 @@ add_library(acrotensor_static STATIC $<TARGET_OBJECTS:acrotensor_obj>)
 # ... and they include the same directories once installed
 target_include_directories(acrotensor_shared SYSTEM INTERFACE $<INSTALL_INTERFACE:include>)
 target_include_directories(acrotensor_static SYSTEM INTERFACE $<INSTALL_INTERFACE:include>)
+
+
+
+# Enable cuda support
+if(ACROTENSOR_ENABLE_CUDA)
+    enable_language(CUDA)
+    target_compile_definitions(acrotensor_obj PUBLIC ACRO_HAVE_CUDA)
+    # Set compatibility for sm_60 as in the default makefile
+    target_compile_options(acrotensor_obj PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:SHELL:-gencode arch=compute_60,code=sm_60>)
+    set_source_files_properties(${acrotensor_src} PROPERTIES LANGUAGE CUDA)
+    set_target_properties(acrotensor_obj    PROPERTIES CUDA_ARCHITECTURES 75)
+    set_target_properties(acrotensor_shared PROPERTIES CUDA_ARCHITECTURES 75)
+    set_target_properties(acrotensor_static PROPERTIES CUDA_ARCHITECTURES 75)
+endif()
+
 
 
 # Rename the output library names for compatibility
