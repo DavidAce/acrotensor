@@ -126,6 +126,12 @@ else()
             INSTALL_DESTINATION share/acrotensor/cmake
     )
 
+    write_basic_package_version_file(
+            ${CMAKE_BINARY_DIR}/acrotensorConfigVersion.cmake
+            VERSION ${PROJECT_VERSION}
+            COMPATIBILITY AnyNewerVersion
+    )
+
     ##Install the config, configversion and custom find modules
     install(FILES
             ${CMAKE_CURRENT_BINARY_DIR}/acrotensorConfig.cmake
