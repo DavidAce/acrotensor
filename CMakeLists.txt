@@ -69,6 +69,8 @@ target_include_directories(acrotensor_static SYSTEM INTERFACE $<INSTALL_INTERFAC
 if(ACROTENSOR_ENABLE_CUDA)
     enable_language(CUDA)
     target_compile_definitions(acrotensor_obj PUBLIC ACRO_HAVE_CUDA)
+    # Link cuda libraries
+    target_link_libraries(acrotensor_obj INTERFACE nvrtc cuda)
     # Set compatibility for sm_60 as in the default makefile
     target_compile_options(acrotensor_obj PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:SHELL:-gencode arch=compute_60,code=sm_60>)
     set_source_files_properties(${acrotensor_src} PROPERTIES LANGUAGE CUDA)
