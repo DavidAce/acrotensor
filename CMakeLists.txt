@@ -72,9 +72,6 @@ set_target_properties(acrotensor_obj PROPERTIES POSITION_INDEPENDENT_CODE ON)
 # shared and static libraries built from the same object files
 add_library(acrotensor_shared SHARED $<TARGET_OBJECTS:acrotensor_obj>)
 add_library(acrotensor_static STATIC $<TARGET_OBJECTS:acrotensor_obj>)
-# ... and they include the same directories if used as subproject
-target_include_directories(acrotensor_shared INTERFACE $<BUILD_INTERFACE: exec kernel ops tensor util>)
-target_include_directories(acrotensor_static INTERFACE $<BUILD_INTERFACE: exec kernel ops tensor util>)
 # ... and they include the same directories once installed
 target_include_directories(acrotensor_shared SYSTEM INTERFACE $<INSTALL_INTERFACE:include>)
 target_include_directories(acrotensor_static SYSTEM INTERFACE $<INSTALL_INTERFACE:include>)
