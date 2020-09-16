@@ -60,7 +60,8 @@ target_include_directories(acrotensor_obj PRIVATE $<BUILD_INTERFACE: exec kernel
 if(ACROTENSOR_ENABLE_CUDA)
     enable_language(CUDA)
     target_compile_definitions(acrotensor_obj PUBLIC ACRO_HAVE_CUDA)
-    set_target_properties(tb-cuda PROPERTIES CUDA_ARCHITECTURES 60 75)
+    set_target_properties(acrotensor_obj PROPERTIES CUDA_ARCHITECTURES 75)
+    target_compile_options(foo PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:SHELL:-gencode arch=compute_60,code=sm_60>)
 endif()
 
 
